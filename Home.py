@@ -4,10 +4,7 @@ import numpy as np
 from PIL import Image
 import requests
 import plotly.express as px
-from sklearn.model_selection import train_test_split
-from sklearn.tree import DecisionTreeClassifier, plot_tree, export_text
-from sklearn import preprocessing
-from numpy import ravel
+
 # PAGE CONFIG
 st.set_page_config(page_title='Home',
                    page_icon='😀',
@@ -173,21 +170,4 @@ with columns[1]:
 
 # ===================================================================
 # ===================================================================
-# # MODEL
-# df = pd.read_csv('anomaly_feature_engineering.csv')
-# sub_title = '<p style=" color:#dfaeff; font-size: 25px"><b>Decision Tree Classifier</b></p>'
-# st.markdown(sub_title, unsafe_allow_html=True)
-# # Define X,y
-# X = df.iloc[:,1:-1]
-# y = df.iloc[:,-1:]
-# le = preprocessing.LabelEncoder()
-# y = le.fit_transform(ravel(y))
-# # Splitting data
-# X_train, X_test, y_train, y_test = train_test_split(X,y,test_size=1/3,random_state=0,stratify=y)
-# clf = DecisionTreeClassifier(random_state=0)
-# clf.fit(X_train, y_train)
-# ypred=clf.predict(X_test)
-# colors = ['#3C567F', '#dfaeff', '#f3e2fe']
-# fig, ax = plt.subplots(figsize=(12,8), dpi = 300)
-# plot_tree(clf,  filled=True, fontsize=7, rounded=True)
-# st.pyplot(fig)
+
