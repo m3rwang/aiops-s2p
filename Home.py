@@ -3,8 +3,6 @@ import pandas as pd
 import numpy as np
 from PIL import Image
 import requests
-import matplotlib.pyplot as plt
-import seaborn as sns
 import plotly.express as px
 from sklearn.model_selection import train_test_split
 from sklearn.tree import DecisionTreeClassifier, plot_tree, export_text
