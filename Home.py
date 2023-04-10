@@ -29,7 +29,35 @@ df.rename(columns = {'BELNR': 'document_no', 'WAERS': 'currency_key',
           'HKONT': 'gl_account', 'DMBTR': 'amount_local_currency',
           'WRBTR': 'amount_document_currency'}, inplace=True)
 
+df['amount_local_currency'] = np.log(df['amount_local_currency']) + 1
+df['amount_document_currency'] = np.log(df['amount_document_currency'] + 1)
 
+from sklearn.preprocessing import MinMaxScaler
+
+m_scaler1 = MinMaxScaler()
+# local
+local_scaled = m_scaler1.fit_transform(df['amount_local_currency'].values.reshape(-1, 1))
+df['amount_local_currency'] = pd.DataFrame(local_scaled)
+
+m_scaler2 = MinMaxScaler()
+
+# document
+document_scaled = m_scaler2.fit_transform(df['amount_document_currency'].values.reshape(-1, 1))
+df['amount_document_currency'] = pd.DataFrame(document_scaled)
+
+from sklearn.preprocessing import StandardScaler
+
+# local
+sc1 = StandardScaler()
+
+local_scaled = sc1.fit_transform(df['amount_local_currency'].values.reshape(-1, 1))
+df['amount_local_currency'] = pd.DataFrame(local_scaled)
+
+# document
+sc2 = StandardScaler()
+
+docu_scaled = sc2.fit_transform(df['amount_document_currency'].values.reshape(-1, 1))
+df['amount_document_currency'] = pd.DataFrame(docu_scaled)
 #===================================================================
 #===================================================================
 ## ViSUALIZATIONS
@@ -88,7 +116,7 @@ with columns[1]:
 # ===================================================================
 columns = st.columns((1,1))
 with columns[0]:
-    options = ['Currency Key', 'Company Code', 'GL Key', 'Profit Center', 'Posting Key', 'GL Account']
+    options = ['Currency Key', 'Company Code', 'GL Key', 'Profit Center', 'Posting Key', 'GL Account', 'Local Currency Amount', 'Document Currency Amount']
     selected = st.selectbox("Select Categorical Feature:", options=options)
     if selected == 'Currency Key':
         st.write('There are 76 unique currency keys among this dataset.')
@@ -160,6 +188,45 @@ with columns[0]:
                          'index': 'GL Accounts'
                      })
         fig.update_layout(paper_bgcolor="#202020", plot_bgcolor='#202020', font_color='#f3e2fe', font_size=16,
+                          height=500)
+        st.plotly_chart(fig, use_container_width=True)
+
+
+    if selected == 'Local Currency Amount':
+        fig = px.box(df, x='label', y="amount_local_currency", color='label', color_discrete_map={
+            'regular': '#3C567F',
+            'global': '#dfaeff',
+            'local': '#f3e2fe'
+        })
+        newnames = {'regular': 'Regular',
+                    'local': 'Local (Anomaly)',
+                    'global': 'Global (Anomaly)'}
+
+        fig.for_each_trace(lambda t: t.update(name=newnames[t.name],
+                                              legendgroup=newnames[t.name],
+                                              hovertemplate=t.hovertemplate.replace(t.name, newnames[t.name])
+                                              )
+                           )
+        fig.update_layout(paper_bgcolor="#202020", plot_bgcolor='#202020', font_color='#f3e2fe', font_size=20,
+                          height=500)
+        st.plotly_chart(fig, use_container_width=True)
+
+    if selected == 'Document Currency Amount':
+        fig = px.box(df, x='label', y="amount_document_currency", color='label', color_discrete_map={
+            'regular': '#3C567F',
+            'global': '#dfaeff',
+            'local': '#f3e2fe'
+        })
+        newnames = {'regular': 'Regular',
+                    'local': 'Local (Anomaly)',
+                    'global': 'Global (Anomaly)'}
+
+        fig.for_each_trace(lambda t: t.update(name=newnames[t.name],
+                                              legendgroup=newnames[t.name],
+                                              hovertemplate=t.hovertemplate.replace(t.name, newnames[t.name])
+                                              )
+                           )
+        fig.update_layout(paper_bgcolor="#202020", plot_bgcolor='#202020', font_color='#f3e2fe', font_size=20,
                           height=500)
         st.plotly_chart(fig, use_container_width=True)
 
