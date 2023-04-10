@@ -117,7 +117,7 @@ with columns[1]:
 columns = st.columns((1,1))
 with columns[0]:
     options = ['Currency Key', 'Company Code', 'GL Key', 'Profit Center', 'Posting Key', 'GL Account', 'Local Currency Amount', 'Document Currency Amount']
-    selected = st.selectbox("Select Categorical Feature:", options=options)
+    selected = st.selectbox("Select Feature:", options=options)
     if selected == 'Currency Key':
         st.write('There are 76 unique currency keys among this dataset.')
         # storing them into dataframe
