@@ -58,60 +58,7 @@ sc2 = StandardScaler()
 
 docu_scaled = sc2.fit_transform(df['amount_document_currency'].values.reshape(-1, 1))
 df['amount_document_currency'] = pd.DataFrame(docu_scaled)
-#===================================================================
-#===================================================================
-## ViSUALIZATIONS
 
-columns = st.columns((1,1))
-with columns[0]:
-    sub_title = '<p style=" color:#dfaeff; font-size: 25px"><b>Distribution of Target Variable - Label</b></p>'
-    st.markdown(sub_title, unsafe_allow_html=True)
-    # visualizing distribution
-    label = pd.DataFrame(df.label.value_counts().reset_index())
-    fig = px.bar(label, x='index', y='label', color = 'index', color_discrete_map={'regular':'#3C567F', 'global': '#dfaeff',
-                                                                                                        'local': "#f3e2fe"},
-                 # title='Distribution of Data Labels',
-                 labels={
-                     'label':'Count',
-                     'index':'Data Label'
-                 })
-    newnames = {'regular': 'Regular',
-                'local': 'Local (Anomaly)',
-                'global': 'Global (Anomaly)'}
-
-    fig.for_each_trace(lambda t: t.update(name=newnames[t.name],
-                                          legendgroup=newnames[t.name],
-                                          hovertemplate=t.hovertemplate.replace(t.name, newnames[t.name])
-                                          )
-                       )
-    fig.update_layout(paper_bgcolor="#202020", plot_bgcolor='#202020', font_color='#f3e2fe', font_size=20, height=500)
-    st.plotly_chart(fig, use_container_width=True)
-
-with columns[1]:
-    sub_title = '<p style=" color:#dfaeff; font-size: 25px"><b>3D Label Distribution</b></p>'
-    st.markdown(sub_title, unsafe_allow_html=True)
-    # visualizing 3d distribution
-    df_3d = pd.read_csv('anomaly_vectors.csv')
-    fig = px.scatter_3d(df_3d, x='x', y='y', z='z', color='label', size_max=8,
-                        labels={
-                            'x': 'Principal Component 1',
-                            'y': 'Principal Component 2',
-                            'z': 'Principal Component 3'
-                        },
-                        color_discrete_map={
-                            'Regular': '#3C567F',
-                            'Global (Anomaly)': '#dfaeff',
-                            'Local (Anomaly)': '#f3e2fe'
-                        }, symbol='label')
-
-    fig.update_layout(legend=dict(font=dict(
-        size=16,
-        color="#f3e2fe"
-    )), height = 500)
-
-    st.plotly_chart(fig, use_container_width=True)
-    st.write('\n')
-    st.write('Note: Click on legend or data points to interact with 3D plot')
 # ===================================================================
 # ===================================================================
 columns = st.columns((1,1))
@@ -119,17 +66,42 @@ with columns[0]:
     options = ['Currency Key', 'Company Code', 'GL Key', 'Profit Center', 'Posting Key', 'GL Account', 'Local Currency Amount', 'Document Currency Amount']
     selected = st.selectbox("Select Feature:", options=options)
     if selected == 'Currency Key':
-        st.write('There are 76 unique currency keys among this dataset.')
-        # storing them into dataframe
-        currency_df = pd.DataFrame(df['currency_key'].value_counts().head(10).reset_index())
-        fig = px.bar(currency_df, x='index', y='currency_key', color='currency_key', color_continuous_scale='Purp',
-                     labels={
-                         'label': 'Count',
-                         'index': 'Currency Key'
-                     })
-        fig.update_layout(paper_bgcolor="#202020", plot_bgcolor='#202020', font_color='#f3e2fe', font_size=16,
-                          height=500)
-        st.plotly_chart(fig, use_container_width=True)
+        sub_columns = st.columns((2,1))
+        with sub_columns[0]:
+            st.write('There are 76 unique currency keys among this dataset.')
+            # storing them into dataframe
+            currency_df = pd.DataFrame(df['currency_key'].value_counts().head(10).reset_index())
+            fig = px.bar(currency_df, x='index', y='currency_key', color='currency_key', color_continuous_scale='Purp',
+                         labels={
+                             'currency_key': 'Count',
+                             'index': 'Currency Key'
+                         })
+            fig.update_layout(paper_bgcolor="#202020", plot_bgcolor='#202020', font_color='#f3e2fe', font_size=16,
+                              height=500)
+            st.plotly_chart(fig, use_container_width=True)
+        with sub_columns[1]:
+            st.write('\n')
+            fig = px.scatter(df, x='label', y='currency_key', color='label', color_discrete_map={
+                'regular': '#3C567F',
+                'global': '#dfaeff',
+                'local': '#f3e2fe'
+            },
+                             labels={
+                                 'currency_key': 'Currenecy Key',
+                                 'label': 'Data Label',
+                             })
+            newnames = {'regular': 'Regular',
+                        'local': 'Local (Anomaly)',
+                        'global': 'Global (Anomaly)'}
+
+            fig.for_each_trace(lambda t: t.update(name=newnames[t.name],
+                                                  legendgroup=newnames[t.name],
+                                                  hovertemplate=t.hovertemplate.replace(t.name, newnames[t.name])
+                                                  )
+                               )
+            fig.update_layout(paper_bgcolor="#202020", plot_bgcolor='#202020', font_color='#f3e2fe', font_size=16,
+                              height=500)
+            st.plotly_chart(fig, use_container_width=True)
 
     if selected == 'Company Code':
         st.write('There are 158 unique company codes among this dataset.')
@@ -233,8 +205,63 @@ with columns[0]:
 with columns[1]:
     image = Image.open('img/overview.png')
     st.image(image, use_column_width=True)
+    st.write('\n')
 
 
 # ===================================================================
 # ===================================================================
 
+#===================================================================
+#===================================================================
+## ViSUALIZATIONS
+
+columns = st.columns((1,1))
+with columns[0]:
+    sub_title = '<p style=" color:#dfaeff; font-size: 25px"><b>Distribution of Target Variable - Label</b></p>'
+    st.markdown(sub_title, unsafe_allow_html=True)
+    # visualizing distribution
+    label = pd.DataFrame(df.label.value_counts().reset_index())
+    fig = px.bar(label, x='index', y='label', color = 'index', color_discrete_map={'regular':'#3C567F', 'global': '#dfaeff',
+                                                                                                        'local': "#f3e2fe"},
+                 # title='Distribution of Data Labels',
+                 labels={
+                     'label':'Count',
+                     'index':'Data Label'
+                 })
+    newnames = {'regular': 'Regular',
+                'local': 'Local (Anomaly)',
+                'global': 'Global (Anomaly)'}
+
+    fig.for_each_trace(lambda t: t.update(name=newnames[t.name],
+                                          legendgroup=newnames[t.name],
+                                          hovertemplate=t.hovertemplate.replace(t.name, newnames[t.name])
+                                          )
+                       )
+    fig.update_layout(paper_bgcolor="#202020", plot_bgcolor='#202020', font_color='#f3e2fe', font_size=20, height=500)
+    st.plotly_chart(fig, use_container_width=True)
+
+with columns[1]:
+    sub_title = '<p style=" color:#dfaeff; font-size: 25px"><b>3D Label Distribution</b></p>'
+    st.markdown(sub_title, unsafe_allow_html=True)
+    # visualizing 3d distribution
+    df_3d = pd.read_csv('anomaly_vectors.csv')
+    fig = px.scatter_3d(df_3d, x='x', y='y', z='z', color='label', size_max=8,
+                        labels={
+                            'x': 'Principal Component 1',
+                            'y': 'Principal Component 2',
+                            'z': 'Principal Component 3'
+                        },
+                        color_discrete_map={
+                            'Regular': '#3C567F',
+                            'Global (Anomaly)': '#dfaeff',
+                            'Local (Anomaly)': '#f3e2fe'
+                        }, symbol='label')
+
+    fig.update_layout(legend=dict(font=dict(
+        size=16,
+        color="#f3e2fe"
+    )), height = 500)
+
+    st.plotly_chart(fig, use_container_width=True)
+    st.write('\n')
+    st.write('Note: Click on legend or data points to interact with 3D plot')
