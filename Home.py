@@ -73,7 +73,7 @@ with tab1:
                 st.write('There are 76 unique currency keys among this dataset.')
                 # storing them into dataframe
                 currency_df = pd.DataFrame(df['currency_key'].value_counts().head(10).reset_index())
-                fig = px.bar(currency_df, x='index', y='currency_key', color='currency_key', color_continuous_scale='Purp',
+                fig = px.bar(currency_df, x=currency_df.index, y='currency_key', color='currency_key', color_continuous_scale='Purp',
                              labels={
                                  'currency_key': 'Count',
                                  'index': 'Currency Key'
