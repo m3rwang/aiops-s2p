@@ -76,7 +76,7 @@ with tab1:
                 fig = px.bar(currency_df, x=currency_df.index, y='currency_key', color='currency_key', color_continuous_scale='Purp',
                              labels={
                                  'currency_key': 'Count',
-                                 'index': 'Currency Key'
+                                 '_index': 'Currency Key'
                              })
                 fig.update_layout(paper_bgcolor="#202020", plot_bgcolor='#202020', font_color='#f3e2fe', font_size=16,
                                   height=500)
@@ -108,10 +108,10 @@ with tab1:
         if selected == 'Company Code':
             st.write('There are 158 unique company codes among this dataset.')
             company_df = pd.DataFrame(df['company_code'].value_counts().head(20).reset_index())
-            fig = px.bar(company_df, x='index', y='company_code', color='company_code', color_continuous_scale='Purp',
+            fig = px.bar(company_df, x=company_df.index, y='company_code', color='company_code', color_continuous_scale='Purp',
                          labels={
                              'label': 'Count',
-                             'index': 'Company Code'
+                             '_index': 'Company Code'
                          })
             fig.update_layout(paper_bgcolor="#202020", plot_bgcolor='#202020', font_color='#f3e2fe', font_size=16,
                               height=500)
@@ -120,10 +120,10 @@ with tab1:
         if selected == 'GL Key':
             st.write('There are 79 unique GL keys among this dataset.')
             glkey_df = pd.DataFrame(df['gl_key'].value_counts().head(10).reset_index())
-            fig = px.bar(glkey_df, x='index', y='gl_key', color='gl_key', color_continuous_scale='Purp',
+            fig = px.bar(glkey_df, x=glkey_df.index, y='gl_key', color='gl_key', color_continuous_scale='Purp',
                          labels={
                              'label': 'Count',
-                             'index': 'GL Keys'
+                             '_index': 'GL Keys'
                          })
             fig.update_layout(paper_bgcolor="#202020", plot_bgcolor='#202020', font_color='#f3e2fe', font_size=16,
                               height=500)
@@ -132,10 +132,10 @@ with tab1:
         if selected == 'Profit Center':
             st.write('There are 157 unique profit centers among this dataset.')
             prof_df = pd.DataFrame(df['profit_center'].value_counts().head(20).reset_index())
-            fig = px.bar(prof_df, x='index', y='profit_center', color='profit_center', color_continuous_scale='Purp',
+            fig = px.bar(prof_df, x=prof_df.index, y='profit_center', color='profit_center', color_continuous_scale='Purp',
                          labels={
                              'label': 'Count',
-                             'index': 'Profit Centers'
+                             '_index': 'Profit Centers'
                          })
             fig.update_layout(paper_bgcolor="#202020", plot_bgcolor='#202020', font_color='#f3e2fe', font_size=16,
                               height=500)
@@ -144,10 +144,10 @@ with tab1:
         if selected == 'Posting Key':
             st.write('There are 73 unique posting keys among this dataset.')
             pk_df = pd.DataFrame(df['posting_key'].value_counts().head(8).reset_index())
-            fig = px.bar(pk_df, x='index', y='posting_key', color='posting_key', color_continuous_scale='Purp',
+            fig = px.bar(pk_df, x=pk_df.index, y='posting_key', color='posting_key', color_continuous_scale='Purp',
                          labels={
                              'label': 'Count',
-                             'index': 'Posting Keys'
+                             '_index': 'Posting Keys'
                          })
             fig.update_layout(paper_bgcolor="#202020", plot_bgcolor='#202020', font_color='#f3e2fe', font_size=16,
                               height=500)
@@ -156,10 +156,10 @@ with tab1:
         if selected == 'GL Account':
             st.write('There are 73 unique GL accounts among this dataset.')
             gl_account_df = pd.DataFrame(df['gl_account'].value_counts().head(8).reset_index())
-            fig = px.bar(gl_account_df, x='index', y='gl_account', color='gl_account', color_continuous_scale='Purp',
+            fig = px.bar(gl_account_df, x=gl_account_df.index, y='gl_account', color='gl_account', color_continuous_scale='Purp',
                          labels={
                              'label': 'Count',
-                             'index': 'GL Accounts'
+                             '_index': 'GL Accounts'
                          })
             fig.update_layout(paper_bgcolor="#202020", plot_bgcolor='#202020', font_color='#f3e2fe', font_size=16,
                               height=500)
