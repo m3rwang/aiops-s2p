@@ -19,7 +19,7 @@ st.image(image,use_column_width=True)
 #===================================================================
 #===================================================================
 
-tab1, tab2=st.tabs(['Anomaly Detection', 'Supplier Segmentation'])
+tab1, tab2=st.tabs(['   Anomaly Detection   ', '   Supplier Segmentation'])
 # DATA PROCESSING
 with tab1:
     # Reading in dataset
@@ -287,6 +287,10 @@ with tab2:
         st.markdown(sub_title, unsafe_allow_html=True)
         image = Image.open('img/overview_supplier.png')
         st.image(image, use_column_width=True)
+        image = Image.open('img/detail.png')
+        st.image(image, use_column_width=True)
+
+
 
 
 
@@ -309,3 +313,15 @@ with tab2:
         fig.update_layout(paper_bgcolor="#202020", plot_bgcolor='#202020', font_color='#f3e2fe', font_size=16,
                           height=900)
         st.plotly_chart(fig, use_container_width=True)
+
+css = '''
+<style>
+    
+    .stTabs [data-baseweb="tab-list"] button [data-testid="stMarkdownContainer"] p {
+    text-align: center; font-size: 32px
+    }
+    
+</style>
+'''
+
+st.markdown(css, unsafe_allow_html=True)
