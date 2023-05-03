@@ -314,6 +314,45 @@ with tab2:
                           height=900)
         st.plotly_chart(fig, use_container_width=True)
 
+    #======================================================================
+    #======================================================================
+    # CLUSTERING
+    columns = st.columns((1,1))
+    with columns[0]:
+        sub_title = '<p style=" color:#dfaeff; font-size: 25px"><b>Supplier Segmentation Clustering Result Utilizing KMean Algorithm</b></p>'
+        st.markdown(sub_title, unsafe_allow_html=True)
+        cluster = pd.read_csv('cluster.csv')
+        # visualization
+        fig = px.scatter_3d(cluster, x='sum', y='count', z='num_manual_edit', color='label',
+                            color_discrete_map={
+                                'Cluster 1': '#3C567F',
+                                'Cluster 2': '#8ecae6',
+                                'Cluster 3': '#f3e2fe'
+                            },
+                            size_max=6,
+                            labels={
+                                'sum': 'Generated Profit from Suppliers',
+                                'count': 'Frequency of Interactions with Suppliers',
+                                'num_manual_edit': 'No. of Manual Edit'
+                            },
+                            hover_data=['Supplier_ID', 'cause'])
+        fig.update_layout(paper_bgcolor="#202020", plot_bgcolor='#202020', font_color='#f3e2fe', font_size=16,
+                          height=900)
+        st.plotly_chart(fig, use_container_width=True)
+    # EVALUATION
+
+    with columns[1]:
+        sub_title = '<p style=" color:#dfaeff; font-size: 25px"><b>KMean Algorithm Evaluation</b></p>'
+        st.markdown(sub_title, unsafe_allow_html=True)
+        elbow = pd.read_csv('elbow.csv')
+        fig = px.line(elbow, x='K', y='Inertia', markers=True)
+        fig.update_layout(title=dict(text='Elbow Method: Change in Inertia as K Increases', font=dict(size=20)),
+                          font_color='#f3e2fe', font_size=20, paper_bgcolor="#202020", plot_bgcolor='#202020', height=550)
+        st.plotly_chart(fig, use_container_width=True)
+
+        st.write("**Elbow** method gives us an idea on what a good K number of clusters would be based on the sum of squared distance (SSE) between data points and their assigned clusters’ centroids."
+                 "We pick K at the spot where SSE starts to flatten out and forming an elbow.")
+
 css = '''
 <style>
     
@@ -325,3 +364,4 @@ css = '''
 '''
 
 st.markdown(css, unsafe_allow_html=True)
+
