@@ -337,7 +337,7 @@ with tab2:
                             },
                             hover_data=['Supplier_ID', 'cause'])
         fig.update_layout(paper_bgcolor="#202020", plot_bgcolor='#202020', font_color='#f3e2fe', font_size=16,
-                          height=800)
+                          height=650)
         st.plotly_chart(fig, use_container_width=True)
     # EVALUATION
 
