@@ -354,7 +354,10 @@ with tab2:
         st.plotly_chart(fig, use_container_width=True)
 
         st.write("**Elbow** method gives us an idea on what a good K number of clusters would be based on the sum of squared distance (SSE) between data points and their assigned clusters’ centroids."
-                 "We pick K at the spot where SSE starts to flatten out and forming an elbow.")
+                 "\n"
+                 "We pick K at the spot where SSE starts to flatten out and forming an elbow."
+                 "\n"
+                 "In this case, we select K=3 as our cluster number based on the 'elbow' as indicated above.")
 
 css = '''
 <style>
