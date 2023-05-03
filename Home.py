@@ -337,7 +337,7 @@ with tab2:
                             },
                             hover_data=['Supplier_ID', 'cause'])
         fig.update_layout(paper_bgcolor="#202020", plot_bgcolor='#202020', font_color='#f3e2fe', font_size=16,
-                          height=900)
+                          height=800)
         st.plotly_chart(fig, use_container_width=True)
     # EVALUATION
 
@@ -346,6 +346,9 @@ with tab2:
         st.markdown(sub_title, unsafe_allow_html=True)
         elbow = pd.read_csv('elbow.csv')
         fig = px.line(elbow, x='K', y='Inertia', markers=True)
+        fig.add_annotation(x=2.6, y=3900,
+                           text='"Elbow"',
+                           showarrow=False)
         fig.update_layout(title=dict(text='Elbow Method: Change in Inertia as K Increases', font=dict(size=20)),
                           font_color='#f3e2fe', font_size=20, paper_bgcolor="#202020", plot_bgcolor='#202020', height=550)
         st.plotly_chart(fig, use_container_width=True)
