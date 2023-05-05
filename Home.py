@@ -222,23 +222,19 @@ with tab1:
         sub_title = '<p style=" color:#dfaeff; font-size: 25px"><b>Distribution of Target Variable - Label</b></p>'
         st.markdown(sub_title, unsafe_allow_html=True)
         # visualizing distribution
-        label = pd.DataFrame(df.label.value_counts().reset_index())
-        fig = px.bar(label, x='index', y='label', color = 'index', color_discrete_map={'regular':'#3C567F', 'global': '#dfaeff',
-                                                                                                            'local': "#f3e2fe"},
+        label = pd.DataFrame(df.label.value_counts())
+        label['Label'] = label.index.map({'regular': 'Regular',
+                                             'local': 'Local (Anomaly)',
+                                             'global': 'Global (Anomaly)'})
+        print(label)
+        fig = px.bar(label, x='Label', y='label', color = 'Label', color_discrete_map={'Regular':'#3C567F', 'Local (Anomaly)': '#dfaeff',
+                                                                                                            'Global (Anomaly)': "#f3e2fe"},
                      # title='Distribution of Data Labels',
                      labels={
-                         'label':'Count',
-                         'index':'Data Label'
+                         'Label':'Count',
+                         '_index':'Data Label'
                      })
-        newnames = {'regular': 'Regular',
-                    'local': 'Local (Anomaly)',
-                    'global': 'Global (Anomaly)'}
 
-        fig.for_each_trace(lambda t: t.update(name=newnames[t.name],
-                                              legendgroup=newnames[t.name],
-                                              hovertemplate=t.hovertemplate.replace(t.name, newnames[t.name])
-                                              )
-                           )
         fig.update_layout(paper_bgcolor="#202020", plot_bgcolor='#202020', font_color='#f3e2fe', font_size=20, height=500)
         st.plotly_chart(fig, use_container_width=True)
 
