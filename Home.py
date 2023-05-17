@@ -543,7 +543,7 @@ with tab2:
     # let us create a layout and display all our objects together
     layout = grid([fig01, fig02, table, savebutton], ncols=2)
     st.bokeh_chart(layout)
-    output_notebook()
+
 
 
 
