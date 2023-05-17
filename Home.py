@@ -72,11 +72,12 @@ with tab1:
             with sub_columns[0]:
                 st.write('There are 76 unique currency keys among this dataset.')
                 # storing them into dataframe
-                currency_df = pd.DataFrame(df['currency_key'].value_counts().head(10).reset_index())
-                fig = px.bar(currency_df, x=currency_df.index, y='currency_key', color='currency_key', color_continuous_scale='Purp',
+                currency_df = pd.DataFrame(df['currency_key'].value_counts().head(10))
+                currency_df['Currency Key'] = currency_df.index
+                print(currency_df)
+                fig = px.bar(currency_df, x='Currency Key', y='currency_key', color='currency_key', color_continuous_scale='Purp',
                              labels={
-                                 'currency_key': 'Count',
-                                 '_index': 'Currency Key'
+                                 'currency_key': 'Count'
                              })
                 fig.update_layout(paper_bgcolor="#202020", plot_bgcolor='#202020', font_color='#f3e2fe', font_size=16,
                                   height=500)
@@ -231,8 +232,8 @@ with tab1:
                                                                                                             'Global (Anomaly)': "#f3e2fe"},
                      # title='Distribution of Data Labels',
                      labels={
-                         'Label':'Count',
-                         '_index':'Data Label'
+                         'label':'Count',
+                         'Label':'Data Label'
                      })
 
         fig.update_layout(paper_bgcolor="#202020", plot_bgcolor='#202020', font_color='#f3e2fe', font_size=20, height=500)
