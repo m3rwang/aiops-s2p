@@ -360,7 +360,7 @@ with tab2:
 
 
     from bokeh.plotting import output_notebook
-    output_notebook()  # set default; alternative is output_file()
+    # output_notebook()  # set default; alternative is output_file()
 
     from bokeh.io import output_notebook  # prevent opening separate tab with graph
 
