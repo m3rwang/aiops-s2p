@@ -375,7 +375,7 @@ with tab2:
     from bokeh.models import Button  # for saving data
     from bokeh.events import ButtonClick  # for saving data
 
-    from bokeh.models.widgets import DataTable, DateFormatter, TableColumn
+    from bokeh.models.widgets import DataTable, TableColumn, HTMLTemplateFormatter
     from bokeh.models import HoverTool
     from bokeh.plotting import figure
     from bokeh.models import Legend, LegendItem
@@ -388,7 +388,7 @@ with tab2:
     d = df['Supplier_ID'].to_list()
     f = df['cause'].to_list()
 
-    colormap = {0: 'red', 1: 'green', 2: 'blue'}
+    colormap = {0: '#f3e2fe', 1: '#8ecae6', 2: '#3C567F'}
     colors = [colormap[x] for x in df['clusters']]
     e = colors
 
@@ -408,7 +408,7 @@ with tab2:
     fig01.circle("x", "y", source=s1, alpha=0.9, color="e")
 
     # color legend
-    rc = fig01.rect(x=0, y=0, height=1, width=1, color=["red", "blue", "green"])
+    rc = fig01.rect(x=0, y=0, height=1, width=1, color=["#f3e2fe", '#8ecae6', '#3C567F'])
     rc.visible = False
 
     # let us define Cluster information and use it as a legend for the first plot
@@ -447,12 +447,23 @@ with tab2:
     fig02.circle("x", "y", source=s2, alpha=0.9, color="e")
 
     # let us create a dynamic table
+    template = """
+            <div style="background:<%= 
+                (function colorfromint(){
+                 return('#202020')
+                    }()) %>; 
+                "> 
+            <%= value %>
+            </div>
+        """
+    formatter = HTMLTemplateFormatter(template=template)
+
     columns = [
-        TableColumn(field="x", title="Profit value"),
-        TableColumn(field="y", title="Frequency of Interactions"),
-        TableColumn(field="z", title="Num_Edit"),
-        TableColumn(field="d", title="Supplier_Id"),
-        TableColumn(field="f", title="Cause"),
+        TableColumn(field="x", title="Profit value", formatter=formatter),
+        TableColumn(field="y", title="Frequency of Interactions", formatter=formatter),
+        TableColumn(field="z", title="Num_Edit", formatter=formatter),
+        TableColumn(field="d", title="Supplier_Id", formatter=formatter),
+        TableColumn(field="f", title="Cause", formatter=formatter),
     ]
 
     table = DataTable(
@@ -462,7 +473,7 @@ with tab2:
         height=150,
         sortable=True,
         selectable=True,
-        editable=True,
+        editable=True
     )
     # Inspired from online Bokeh tutorials
 
