@@ -270,6 +270,7 @@ with tab2:
     df = pd.read_csv('supplier_segmentation.csv')
     df['num_manual_edit'] = df['num_manual_edit'].astype(object)
 
+
     columns = st.columns((1,1))
     with columns[0]:
         # PROBLEM STATEMENT
